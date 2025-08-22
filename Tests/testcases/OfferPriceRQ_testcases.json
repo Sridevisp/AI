@@ -1,0 +1,136 @@
+[
+  {
+    "test_case_id": "OfferPriceRQ_001",
+    "description": "Valid single OfferRefID returns correct total price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare a valid OfferRefID: a2716059-ee3b-487c-8a63-d72a8c7810a7|am9f9wivlT9SV0Wd7zNRI7001",
+      "Send POST request to OfferPriceRQ endpoint with the OfferRefID in the body",
+      "Verify HTTP 200 response",
+      "Parse the response JSON",
+      "Check that totalPrice field is present and is a positive number"
+    ],
+    "expected_result": "Response returns HTTP 200 with totalPrice > 0",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_002",
+    "description": "Valid OfferRefID with multiple OfferItemRefIDs returns correct total price",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare a valid OfferRefID: a2716059-ee3b-487c-8a63-d72a8c7810a7|am9f9wivlT9SV0Wd7zNRI7001",
+      "Include all three OfferItemRefIDs in the request body",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 200 response",
+      "Validate that totalPrice equals the sum of individual item prices"
+    ],
+    "expected_result": "Response returns HTTP 200 with accurate totalPrice",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_003",
+    "description": "Missing OfferRefID returns 400 Bad Request",
+    "test_type": "Negative",
+    "test_steps": [
+      "Send POST request to OfferPriceRQ endpoint with empty body",
+      "Verify HTTP 400 response",
+      "Check error message indicates OfferRefID is required"
+    ],
+    "expected_result": "HTTP 400 with descriptive error message",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_004",
+    "description": "Malformed OfferRefID returns 422 Unprocessable Entity",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare an OfferRefID with invalid format: 'invalid-offer-id'",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 422 response",
+      "Check error message indicates invalid OfferRefID format"
+    ],
+    "expected_result": "HTTP 422 with validation error",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_005",
+    "description": "Non-existent OfferRefID returns 404 Not Found",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare a syntactically valid but non-existent OfferRefID: '00000000-0000-0000-0000-000000000000|xxxxxxxxxxxxxxxxxxxxxxxx'",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 404 response",
+      "Check error message indicates offer not found"
+    ],
+    "expected_result": "HTTP 404 with 'Offer not found' message",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_006",
+    "description": "Expired OfferRefID returns 410 Gone",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare an OfferRefID that has expired",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 410 response",
+      "Check error message indicates offer has expired"
+    ],
+    "expected_result": "HTTP 410 with 'Offer expired' message",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_007",
+    "description": "Valid OfferRefID with partial OfferItemRefIDs returns price for selected items",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare a valid OfferRefID",
+      "Include only the first OfferItemRefID in the request",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 200 response",
+      "Validate totalPrice matches only the selected item"
+    ],
+    "expected_result": "HTTP 200 with totalPrice for selected items only",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_008",
+    "description": "Invalid OfferItemRefID format returns 422",
+    "test_type": "Negative",
+    "test_steps": [
+      "Prepare a valid OfferRefID",
+      "Include an OfferItemRefID with invalid format: 'invalid-item-id'",
+      "Send POST request to OfferPriceRQ endpoint",
+      "Verify HTTP 422 response"
+    ],
+    "expected_result": "HTTP 422 with validation error for OfferItemRefID",
+    "priority": "Low"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_009",
+    "description": "Response includes currency and price breakdown",
+    "test_type": "Positive",
+    "test_steps": [
+      "Send valid OfferPriceRQ request",
+      "Verify HTTP 200 response",
+      "Check response contains currency field",
+      "Check response contains priceBreakdown object",
+      "Validate all required fields are present"
+    ],
+    "expected_result": "Response includes currency and detailed price breakdown",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "OfferPriceRQ_010",
+    "description": "Large payload with 50 OfferItemRefIDs returns successfully",
+    "test_type": "Positive",
+    "test_steps": [
+      "Prepare a valid OfferRefID",
+      "Generate 50 valid OfferItemRefIDs",
+      "Send POST request with all items",
+      "Verify HTTP 200 response within 5 seconds",
+      "Validate totalPrice calculation"
+    ],
+    "expected_result": "HTTP 200 with correct totalPrice within performance SLA",
+    "priority": "Low"
+  }
+]
