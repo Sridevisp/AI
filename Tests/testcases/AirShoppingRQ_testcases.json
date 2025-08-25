@@ -1,0 +1,122 @@
+[
+  {
+    "test_case_id": "AirShoppingRQ_001",
+    "description": "Single adult passenger in request",
+    "test_type": "Positive",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Include exactly one Pax element with PTC=ADT",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 200 OK with valid shopping response",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "AirShoppingRQ_002",
+    "description": "Multiple adult passengers only",
+    "test_type": "Positive",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Include two Pax elements both with PTC=ADT",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 200 OK with valid shopping response",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "AirShoppingRQ_003",
+    "description": "Adult plus child passengers",
+    "test_type": "Positive",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Include one Pax with PTC=ADT and one with PTC=CHD",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 200 OK with valid shopping response",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "AirShoppingRQ_004",
+    "description": "Adult plus GBE passenger",
+    "test_type": "Positive",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Include one Pax with PTC=ADT and one with PTC=GBE",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 200 OK with valid shopping response",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "AirShoppingRQ_005",
+    "description": "No passengers provided",
+    "test_type": "Negative",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Omit PaxList or provide empty PaxList",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error 'At least one adult passenger required'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "AirShoppingRQ_006",
+    "description": "Only child passengers",
+    "test_type": "Negative",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Include one or more Pax elements all with PTC=CHD",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error 'At least one adult passenger required'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "AirShoppingRQ_007",
+    "description": "Only GBE passengers",
+    "test_type": "Negative",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Include one or more Pax elements all with PTC=GBE",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with error 'At least one adult passenger required'",
+    "priority": "High"
+  },
+  {
+    "test_case_id": "AirShoppingRQ_008",
+    "description": "Missing PTC element in passenger",
+    "test_type": "Negative",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Include one Pax element without PTC",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with schema validation error",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "AirShoppingRQ_009",
+    "description": "Invalid PTC value for adult",
+    "test_type": "Negative",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Include one Pax element with PTC=XXX",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 400 Bad Request with schema validation error",
+    "priority": "Medium"
+  },
+  {
+    "test_case_id": "AirShoppingRQ_010",
+    "description": "Mixed passengers with one adult",
+    "test_type": "Positive",
+    "test_steps": [
+      "Construct AirShoppingRQ payload",
+      "Include one Pax with PTC=ADT, one with PTC=CHD, and one with PTC=GBE",
+      "Send request to AirShoppingRQ endpoint"
+    ],
+    "expected_result": "HTTP 200 OK with valid shopping response",
+    "priority": "High"
+  }
+]
